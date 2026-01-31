@@ -185,7 +185,6 @@ This project includes:
 # Author
 
 Smriti Prajapati
-Intern Candidate – Software / Full Stack Development
 
 ## GitHub Repository
 https://github.com/Smriti-Prajapati/ChemView
