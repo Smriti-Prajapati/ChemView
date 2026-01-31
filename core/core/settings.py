@@ -1,15 +1,36 @@
 from pathlib import Path
+import os
 
+# --------------------------------------------------
+# BASE DIRECTORY
+# --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY
-SECRET_KEY = 'django-insecure-chemview-secret'
-DEBUG = True   # Keep True for now, change to False after deployment
 
-# IMPORTANT FOR DEPLOYMENT
-ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
+# --------------------------------------------------
+# SECURITY SETTINGS
+# --------------------------------------------------
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-chemview-secret"
+)
 
+# DEBUG:
+# True for local development
+# Render will automatically set this to False if we want later
+DEBUG = True
+
+# Allow all for now (safe for internship demo & Render free tier)
+ALLOWED_HOSTS = [
+    "*",
+    "localhost",
+    "127.0.0.1",
+]
+
+
+# --------------------------------------------------
 # APPLICATIONS
+# --------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,7 +48,10 @@ INSTALLED_APPS = [
     'api',
 ]
 
+
+# --------------------------------------------------
 # MIDDLEWARE
+# --------------------------------------------------
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # MUST be first
     'django.middleware.security.SecurityMiddleware',
@@ -39,12 +63,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS (React + Desktop access)
+
+# --------------------------------------------------
+# CORS CONFIG (React + PyQt Desktop)
+# --------------------------------------------------
 CORS_ALLOW_ALL_ORIGINS = True
 
+
+# --------------------------------------------------
+# URLS & WSGI
+# --------------------------------------------------
 ROOT_URLCONF = 'core.urls'
 
+WSGI_APPLICATION = 'core.wsgi.application'
+
+
+# --------------------------------------------------
 # TEMPLATES
+# --------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -60,9 +96,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
 
-# DATABASE
+# --------------------------------------------------
+# DATABASE (SQLite – PERFECT for this task)
+# --------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -70,19 +107,34 @@ DATABASES = {
     }
 }
 
+
+# --------------------------------------------------
 # INTERNATIONALIZATION
+# --------------------------------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# STATIC FILES (IMPORTANT FOR DEPLOYMENT)
+
+# --------------------------------------------------
+# STATIC FILES (IMPORTANT FOR RENDER)
+# --------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+
+# --------------------------------------------------
 # DJANGO REST FRAMEWORK
+# --------------------------------------------------
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
 }
+
+
+# --------------------------------------------------
+# DEFAULT PRIMARY KEY
+# --------------------------------------------------
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

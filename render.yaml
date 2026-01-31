@@ -3,6 +3,7 @@ services:
     name: chemview-backend
     env: python
     plan: free
+    rootDir: .
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn core.wsgi:application
     envVars:
