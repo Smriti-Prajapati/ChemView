@@ -48,27 +48,40 @@ The system allows users to upload chemical equipment CSV data, analyze it using 
 
 ChemView/
 │
-├── chemical-visualizer/
-│   ├── core/                 # Django project settings
-│   ├── api/                  # Django REST API app
-│   ├── db.sqlite3            # SQLite database
+├── chemical-visualizer/              # Django Backend
+│   ├── core/                         # Django project settings
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   │
+│   ├── api/                          # Django REST API app
+│   │   ├── migrations/
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   └── urls.py
+│   │
+│   ├── db.sqlite3                    # SQLite database
 │   └── manage.py
 │
-├── frontend/                 # React Web Application
+├── frontend/                         # React Web Application
 │   ├── src/
 │   │   ├── pages/
 │   │   ├── layout/
 │   │   ├── services/
-│   │   └── App.jsx
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── public/
 │   └── package.json
 │
-├── desktop_app/              # PyQt5 Desktop Application
+├── desktop_app/                      # PyQt5 Desktop Application
 │   ├── main.py
 │   ├── api.py
 │   ├── charts.py
 │   └── requirements.txt
 │
-├── sample_equipment_data.csv # Sample CSV for testing
+├── sample_equipment_data.csv         # Sample CSV for testing
+├── requirements.txt                  # Backend dependencies
 └── README.md
 
 ---
