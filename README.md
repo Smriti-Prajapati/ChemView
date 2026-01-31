@@ -46,6 +46,7 @@ The system allows users to upload chemical equipment CSV data, analyze it using 
 
 # Project Structure
 
+<pre>
 ChemView/
 |-- chemical-visualizer/
 |   |-- core/
@@ -70,6 +71,8 @@ ChemView/
 |-- sample_equipment_data.csv
 |-- requirements.txt
 `-- README.md
+</pre>
+
 
 
 
