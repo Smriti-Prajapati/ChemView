@@ -4,18 +4,16 @@ services:
     env: python
     plan: free
 
-    rootDir: core
-
     buildCommand: |
-      pip install -r requirements.txt
-      python manage.py collectstatic --noinput
-      python manage.py migrate
+      pip install -r core/requirements.txt
+      python core/manage.py collectstatic --noinput
+      python core/manage.py migrate
 
-    startCommand: gunicorn core.wsgi:application
+    startCommand: gunicorn core.core.wsgi:application
 
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: core.settings
+        value: core.core.settings
 
       - key: PYTHON_VERSION
         value: 3.11.4
