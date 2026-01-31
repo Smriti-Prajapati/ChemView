@@ -10,6 +10,8 @@ from reportlab.pdfgen import canvas
 import io
 
 from .models import EquipmentUpload
+from rest_framework.authtoken.models import Token
+
 
 
 
