@@ -47,29 +47,29 @@ The system allows users to upload chemical equipment CSV data, analyze it using 
 # Project Structure
 
 ChemView/
-├── chemical-visualizer/
-│   ├── core/
-│   ├── api/
-│   ├── db.sqlite3
-│   └── manage.py
-│
-├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── layout/
-│   │   ├── services/
-│   │   └── App.jsx
-│   └── package.json
-│
-├── desktop_app/
-│   ├── main.py
-│   ├── api.py
-│   ├── charts.py
-│   └── requirements.txt
-│
-├── sample_equipment_data.csv
-├── requirements.txt
-└── README.md
+|-- chemical-visualizer/
+|   |-- core/
+|   |-- api/
+|   |-- db.sqlite3
+|   `-- manage.py
+|
+|-- frontend/
+|   |-- src/
+|   |   |-- pages/
+|   |   |-- layout/
+|   |   |-- services/
+|   |   `-- App.jsx
+|   `-- package.json
+|
+|-- desktop_app/
+|   |-- main.py
+|   |-- api.py
+|   |-- charts.py
+|   `-- requirements.txt
+|
+|-- sample_equipment_data.csv
+|-- requirements.txt
+`-- README.md
 
 
 ---
