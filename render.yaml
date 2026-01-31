@@ -2,7 +2,6 @@ services:
   - type: web
     name: chemview-backend
     env: python
-    region: singapore
     plan: free
 
     rootDir: core
