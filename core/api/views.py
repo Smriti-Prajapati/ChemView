@@ -1,9 +1,8 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.http import FileResponse
 from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
 
 import pandas as pd
 from reportlab.lib.pagesizes import A4
@@ -11,6 +10,9 @@ from reportlab.pdfgen import canvas
 import io
 
 from .models import EquipmentUpload
+
+
+
 
 
 # ---------------- LOGIN ----------------
