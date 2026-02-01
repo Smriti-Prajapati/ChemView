@@ -73,7 +73,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # --------------------------------------------------
 # URLS & WSGI
 # --------------------------------------------------
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'core.core.urls'
 
 WSGI_APPLICATION = 'core.wsgi.application'
 

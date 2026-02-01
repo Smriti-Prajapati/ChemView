@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from api.views import (
+from core.api.views import (
     login,
     upload_csv,
     upload_history,
