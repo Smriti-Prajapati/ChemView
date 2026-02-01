@@ -1,7 +1,7 @@
 export default function Reports() {
 
   const downloadReport = () => {
-    window.open("http://127.0.0.1:8000/api/report/", "_blank");
+    window.open("https://chemview.onrender.com/api/report/", "_blank");
   };
 
   return (

@@ -24,3 +24,7 @@ export async function getHistory() {
   if (!res.ok) throw new Error("Failed to fetch history");
   return await res.json();
 }
+
+export function downloadReport() {
+  window.open(`${API_BASE_URL}/report/`, "_blank");
+}
