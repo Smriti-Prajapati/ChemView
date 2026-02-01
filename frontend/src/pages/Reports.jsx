@@ -1,24 +1,45 @@
 export default function Reports() {
 
-  const downloadReport = () => {
-    window.open("https://chemview.onrender.com/api/report/", "_blank");
+  const downloadReport = async () => {
+    try {
+      const response = await fetch(
+        "https://chemview.onrender.com/api/report/"
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to download report");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "chemview_report.pdf";
+      document.body.appendChild(a);
+      a.click();
+
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error(error);
+      alert("Report download failed");
+    }
   };
 
   return (
     <div className="panel" style={{ maxWidth: "900px" }}>
 
-      {/* TITLE */}
       <h2 style={{ fontSize: "26px", fontWeight: "700", marginBottom: "10px" }}>
         ChemView Reports Center
       </h2>
 
-      {/* DESCRIPTION */}
       <p style={{ color: "#475569", marginBottom: "24px", fontSize: "15px" }}>
         Generate and download the latest equipment analysis report in PDF format.
         The report contains summary statistics, averages, and equipment type distribution.
       </p>
 
-      {/* REPORT CARD */}
       <div
         style={{
           background: "#f8fafc",
@@ -57,7 +78,6 @@ export default function Reports() {
           Download PDF Report
         </button>
       </div>
-
     </div>
   );
 }
