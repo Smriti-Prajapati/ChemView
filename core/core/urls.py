@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 
-from core.api.views import (
+from api.views import (
     login,
     upload_csv,
     upload_history,
     latest_summary,
-    generate_report
+    generate_report,
 )
 
 urlpatterns = [

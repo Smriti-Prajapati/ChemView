@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://127.0.0.1:8000/api"
+BASE_URL = "https://chemview.onrender.com/api"
 
 def get_summary():
     response = requests.get(f"{BASE_URL}/summary/")

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     # Local
-    'core.api',
+    'api',
 ]
 
 
@@ -73,7 +73,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # --------------------------------------------------
 # URLS & WSGI
 # --------------------------------------------------
-ROOT_URLCONF = 'core.core.urls'
+ROOT_URLCONF = 'core.urls'
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
