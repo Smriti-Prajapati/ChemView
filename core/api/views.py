@@ -13,10 +13,6 @@ from .models import EquipmentUpload
 from rest_framework.authtoken.models import Token
 
 
-
-
-
-
 # ---------------- LOGIN ----------------
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -34,7 +30,7 @@ def login(request):
 
 # ---------------- UPLOAD CSV ----------------
 @api_view(['POST'])
-@permission_classes([AllowAny])   # CHANGED FROM IsAuthenticated
+@permission_classes([AllowAny])
 def upload_csv(request):
     file = request.FILES.get('file')
     if not file:
@@ -43,7 +39,7 @@ def upload_csv(request):
     df = pd.read_csv(file)
 
     summary = {
-        "total_count": len(df),
+        "total_count": int(len(df)),
         "avg_flowrate": float(df['Flowrate'].mean()),
         "avg_pressure": float(df['Pressure'].mean()),
         "avg_temperature": float(df['Temperature'].mean()),
@@ -68,12 +64,10 @@ def upload_csv(request):
 def upload_history(request):
     data = (
         EquipmentUpload.objects
-        .all()
-        .order_by('-uploaded_at')[:5]   # ✅ LIMIT TO LAST 5
+        .order_by('-uploaded_at')[:5]
         .values()
     )
     return Response(list(data))
-
 
 
 # ---------------- LATEST SUMMARY ----------------
@@ -82,7 +76,13 @@ def upload_history(request):
 def latest_summary(request):
     latest = EquipmentUpload.objects.last()
     if not latest:
-        return Response({"error": "No data found"})
+        return Response({
+            "total_count": 0,
+            "avg_flowrate": 0,
+            "avg_pressure": 0,
+            "avg_temperature": 0,
+            "type_distribution": {}
+        })
 
     return Response({
         "file_name": latest.file_name,
@@ -101,37 +101,45 @@ def latest_summary(request):
 def generate_report(request):
     latest = EquipmentUpload.objects.last()
     if not latest:
-        return Response({"error": "No data to generate report"})
+        return Response({"error": "No data to generate report"}, status=400)
 
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
 
     y = height - 50
-    p.setFont("Helvetica", 12)
-    p.drawString(50, y, "ChemView - Equipment CSV Analysis Report")
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(50, y, "ChemView – Equipment CSV Analysis Report")
 
     y -= 40
+    p.setFont("Helvetica", 11)
     p.drawString(50, y, f"File Name: {latest.file_name}")
-    y -= 25
-    p.drawString(50, y, f"Total Records: {latest.total_count}")
-    y -= 25
+    y -= 22
+    p.drawString(50, y, f"Total Equipment Records: {latest.total_count}")
+    y -= 22
     p.drawString(50, y, f"Average Flowrate: {latest.avg_flowrate}")
-    y -= 25
+    y -= 22
     p.drawString(50, y, f"Average Pressure: {latest.avg_pressure}")
-    y -= 25
+    y -= 22
     p.drawString(50, y, f"Average Temperature: {latest.avg_temperature}")
 
-    y -= 40
+    y -= 35
+    p.setFont("Helvetica-Bold", 12)
     p.drawString(50, y, "Equipment Type Distribution:")
     y -= 25
 
-    for k, v in latest.type_distribution.items():
-        p.drawString(70, y, f"{k}: {v}")
-        y -= 20
+    p.setFont("Helvetica", 11)
+    for key, value in latest.type_distribution.items():
+        p.drawString(70, y, f"{key}: {value}")
+        y -= 18
 
     p.showPage()
     p.save()
 
     buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename="chemview_report.pdf")
+
+    return FileResponse(
+        buffer,
+        as_attachment=True,
+        filename="chemview_report.pdf"
+    )
