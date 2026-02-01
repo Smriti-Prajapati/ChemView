@@ -96,50 +96,52 @@ def latest_summary(request):
 
 
 # ---------------- PDF REPORT ----------------
+# ---------------- PDF REPORT ----------------
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def generate_report(request):
     latest = EquipmentUpload.objects.last()
     if not latest:
-        return Response({"error": "No data to generate report"}, status=400)
+        return Response({"error": "No data to generate report"})
 
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
 
     y = height - 50
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(50, y, "ChemView – Equipment CSV Analysis Report")
+    p.setFont("Helvetica", 12)
+    p.drawString(50, y, "ChemView - Equipment CSV Analysis Report")
 
     y -= 40
-    p.setFont("Helvetica", 11)
     p.drawString(50, y, f"File Name: {latest.file_name}")
-    y -= 22
-    p.drawString(50, y, f"Total Equipment Records: {latest.total_count}")
-    y -= 22
+    y -= 25
+    p.drawString(50, y, f"Total Records: {latest.total_count}")
+    y -= 25
     p.drawString(50, y, f"Average Flowrate: {latest.avg_flowrate}")
-    y -= 22
+    y -= 25
     p.drawString(50, y, f"Average Pressure: {latest.avg_pressure}")
-    y -= 22
+    y -= 25
     p.drawString(50, y, f"Average Temperature: {latest.avg_temperature}")
 
-    y -= 35
-    p.setFont("Helvetica-Bold", 12)
+    y -= 40
     p.drawString(50, y, "Equipment Type Distribution:")
     y -= 25
 
-    p.setFont("Helvetica", 11)
-    for key, value in latest.type_distribution.items():
-        p.drawString(70, y, f"{key}: {value}")
-        y -= 18
+    for k, v in latest.type_distribution.items():
+        p.drawString(70, y, f"{k}: {v}")
+        y -= 20
 
     p.showPage()
     p.save()
-
     buffer.seek(0)
 
-    return FileResponse(
+    response = FileResponse(
         buffer,
         as_attachment=True,
         filename="chemview_report.pdf"
     )
+
+    response["Content-Type"] = "application/pdf"
+    response["Content-Disposition"] = 'attachment; filename="chemview_report.pdf"'
+
+    return response
