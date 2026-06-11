@@ -4,6 +4,7 @@
 ChemView is a hybrid data visualization and analytics application built as part of an intern screening task.
 The system allows users to upload chemical equipment CSV data, analyze it using a Django backend, and visualize results via both a Web (React) and Desktop (PyQt5) interface.
 
+
 ---
 
 # Project Features
